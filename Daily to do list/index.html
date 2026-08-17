@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Daily Self Development</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="header">
+    <div class="header-top">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <div>
+          <h1 class="brand-title">Daily Self Development</h1>
+          <p class="brand-date" id="headerDate">—</p>
+        </div>
+      </div>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <span class="theme-icon" id="themeIcon">🌙</span>
+      </button>
+    </div>
+    <p class="brand-subtitle" id="motivationLine">Small daily improvements lead to remarkable results.</p>
+
+    <nav class="tabs" role="tablist" aria-label="Main navigation">
+      <button class="tab-btn is-active" data-tab="today" role="tab" aria-selected="true">Today</button>
+      <button class="tab-btn" data-tab="history" role="tab" aria-selected="false">History</button>
+      <button class="tab-btn" data-tab="statistics" role="tab" aria-selected="false">Statistics</button>
+      <button class="tab-btn" data-tab="settings" role="tab" aria-selected="false">Settings</button>
+    </nav>
+  </header>
+
+  <main class="main">
+
+    <!-- ===================== TODAY ===================== -->
+    <section class="view" id="view-today" data-view="today">
+
+      <div class="card progress-card">
+        <div class="progress-card-top">
+          <div>
+            <p class="eyebrow">Today&rsquo;s progress</p>
+            <p class="progress-count"><span id="progressCompleted">0</span> / <span id="progressTotal">7</span></p>
+          </div>
+          <div class="streak-pill" id="streakPill" title="Consecutive fully-completed days">
+            <span class="streak-flame">🔥</span>
+            <span id="currentStreakValue">0</span>
+            <span class="streak-label">day streak</span>
+          </div>
+        </div>
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p class="progress-motivation" id="progressMotivation">Start with one. You don&rsquo;t need to complete everything at once.</p>
+        <p class="celebration" id="celebrationMsg" hidden>🎉 Great job! You completed your entire daily routine!</p>
+      </div>
+
+      <div class="card checklist-card">
+        <div class="checklist-head">
+          <p class="eyebrow">Today&rsquo;s routine</p>
+          <p class="sunday-note" id="sundayNote" hidden>Rest day — Gym is skipped on Sundays.</p>
+        </div>
+        <ul class="checklist" id="checklist"></ul>
+      </div>
+
+      <div class="card notes-card">
+        <p class="eyebrow">Daily notes</p>
+        <textarea id="notesArea" class="notes-area" placeholder="Write about your day, what you learned, challenges, achievements, thoughts, etc."></textarea>
+        <div class="notes-footer">
+          <button class="btn btn-primary" id="saveNotesBtn" type="button">Save notes</button>
+          <span class="notes-confirm" id="notesConfirm" hidden>Notes saved successfully.</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===================== HISTORY ===================== -->
+    <section class="view" id="view-history" data-view="history" hidden>
+      <div class="card">
+        <p class="eyebrow">Previous days</p>
+        <div class="table-wrap">
+          <table class="history-table" id="historyTable">
+            <thead>
+              <tr><th>Date</th><th>Completed</th><th>Progress</th><th></th></tr>
+            </thead>
+            <tbody id="historyTableBody"></tbody>
+          </table>
+        </div>
+        <p class="empty-note" id="historyEmpty" hidden>No entries yet — come back once you&rsquo;ve tracked a day.</p>
+      </div>
+
+      <div class="card" id="historyDetailCard" hidden>
+        <div class="history-detail-head">
+          <p class="eyebrow" id="historyDetailDate">—</p>
+          <button class="btn btn-ghost" id="closeHistoryDetail" type="button">Close</button>
+        </div>
+        <p class="progress-count small" id="historyDetailProgress">0 / 7</p>
+        <ul class="checklist checklist-readonly" id="historyDetailChecklist"></ul>
+        <div class="history-notes">
+          <p class="eyebrow">Notes</p>
+          <p class="history-notes-text" id="historyDetailNotes">—</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STATISTICS ===================== -->
+    <section class="view" id="view-statistics" data-view="statistics" hidden>
+
+      <div class="stat-grid">
+        <div class="card stat-card">
+          <p class="eyebrow">Current streak</p>
+          <p class="stat-number"><span id="statCurrentStreak">0</span> <span class="stat-flame">🔥</span></p>
+        </div>
+        <div class="card stat-card">
+          <p class="eyebrow">Best streak</p>
+          <p class="stat-number"><span id="statBestStreak">0</span> days</p>
+        </div>
+        <div class="card stat-card">
+          <p class="eyebrow">Perfect days (all-time)</p>
+          <p class="stat-number" id="statPerfectDays">0</p>
+        </div>
+        <div class="card stat-card">
+          <p class="eyebrow">Total activities logged</p>
+          <p class="stat-number" id="statTotalActivities">0</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="week-nav">
+          <button class="btn btn-ghost" id="prevWeekBtn" type="button" aria-label="Previous week">&larr; Prev</button>
+          <p class="eyebrow" id="weekRangeLabel">This week</p>
+          <button class="btn btn-ghost" id="nextWeekBtn" type="button" aria-label="Next week">Next &rarr;</button>
+        </div>
+
+        <div class="week-summary-grid">
+          <div class="week-stat">
+            <p class="week-stat-label">Activities completed</p>
+            <p class="week-stat-value" id="weekActivities">0 / 0</p>
+          </div>
+          <div class="week-stat">
+            <p class="week-stat-label">Average completion</p>
+            <p class="week-stat-value" id="weekAverage">0%</p>
+          </div>
+          <div class="week-stat">
+            <p class="week-stat-label">Perfect days</p>
+            <p class="week-stat-value" id="weekPerfectDays">0</p>
+          </div>
+        </div>
+
+        <div class="week-days" id="weekDaysBreakdown"></div>
+
+        <div class="week-activity-rates" id="weekActivityRates"></div>
+
+        <div class="week-report-extra">
+          <p class="eyebrow">Notes this week</p>
+          <div id="weekNotesList" class="week-notes-list"></div>
+        </div>
+
+        <div class="week-summary-text">
+          <p class="eyebrow">Summary</p>
+          <p id="weekSummaryText" class="week-summary-sentence">—</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="eyebrow">This month</p>
+        <div class="week-summary-grid">
+          <div class="week-stat">
+            <p class="week-stat-label">Activities completed</p>
+            <p class="week-stat-value" id="monthActivities">0 / 0</p>
+          </div>
+          <div class="week-stat">
+            <p class="week-stat-label">Average completion</p>
+            <p class="week-stat-value" id="monthAverage">0%</p>
+          </div>
+          <div class="week-stat">
+            <p class="week-stat-label">Perfect days</p>
+            <p class="week-stat-value" id="monthPerfectDays">0</p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===================== SETTINGS ===================== -->
+    <section class="view" id="view-settings" data-view="settings" hidden>
+      <div class="card">
+        <p class="eyebrow">Appearance</p>
+        <div class="settings-row">
+          <div>
+            <p class="settings-row-title">Theme</p>
+            <p class="settings-row-desc">Switch between light and dark mode. Your choice is remembered.</p>
+          </div>
+          <button class="btn btn-secondary" id="settingsThemeToggle" type="button">Toggle theme</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="eyebrow">Data</p>
+
+        <div class="settings-row">
+          <div>
+            <p class="settings-row-title">Export data</p>
+            <p class="settings-row-desc">Download your full history as a JSON file.</p>
+          </div>
+          <button class="btn btn-secondary" id="exportBtn" type="button">Export</button>
+        </div>
+
+        <div class="settings-row">
+          <div>
+            <p class="settings-row-title">Import data</p>
+            <p class="settings-row-desc">Restore data from a previously exported JSON file.</p>
+          </div>
+          <label class="btn btn-secondary file-btn">
+            Import
+            <input type="file" id="importInput" accept="application/json" hidden />
+          </label>
+        </div>
+
+        <div class="settings-row">
+          <div>
+            <p class="settings-row-title">Clear all data</p>
+            <p class="settings-row-desc">Permanently delete every saved daily record.</p>
+          </div>
+          <button class="btn btn-danger" id="clearDataBtn" type="button">Clear data</button>
+        </div>
+
+        <p class="settings-confirm" id="settingsConfirm" hidden></p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Confirmation dialog -->
+<div class="dialog-overlay" id="dialogOverlay" hidden>
+  <div class="dialog" role="alertdialog" aria-modal="true">
+    <p id="dialogMessage">Are you sure?</p>
+    <div class="dialog-actions">
+      <button class="btn btn-ghost" id="dialogCancel" type="button">Cancel</button>
+      <button class="btn btn-danger" id="dialogConfirm" type="button">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
